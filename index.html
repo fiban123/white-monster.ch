@@ -3,25 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>White Monster</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        text-align: center;
-    </style>
+    <title>White Monster Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div>
-        <h1>Hello, World!</h1>
-        <p>Welcome to white-monster.ch</p>
-    </div>
+    <header>
+        <h1>White Monster Tracker</h1>
+        <p class="subtitle">Availability Status</p>
+        <div class="stats-grid" id="stats-container">
+            <!-- Stats will be injected here -->
+        </div>
+    </header>
+
+    <main class="container" id="card-container">
+        <!-- Cards will be injected here by JS -->
+    </main>
+
+    <img id="linus-img" src="linus.webp" alt="Happy Linus Torvalds" style="display: none;">
+
+    <footer class="footer">
+        <p>&copy; 2026 White Monster Tracker</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        const container = document.getElementById('card-container');
+        const statsContainer = document.getElementById('stats-container');
+
+        function renderStats() {
+            const total = monsterSites.length;
+            const inStock = monsterSites.filter(s => s.status === 'available').length;
+            const onSale = monsterSites.filter(s => s.discountPercent > 0).length;
+
+            statsContainer.innerHTML = `
+                <div class="stat-item">
+                    <span class="stat-label">Total Sites</span>
+                    <span class="stat-value">${total}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">In Stock</span>
+                    <span class="stat-value ${inStock > 0 ? 'text-success' : 'text-danger'}">${inStock}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">On Sale</span>
+                    <span class="stat-value text-purple">${onSale}</span>
+                </div>
+            `;
+        }
+
+        function renderCards() {
+            // Sort: 'available' first, then 'out_of_stock'
+            const sortedSites = [...monsterSites].sort((a, b) => {
+                if (a.status === 'available' && b.status !== 'available') return -1;
+                if (a.status !== 'available' && b.status === 'available') return 1;
+                return 0;
+            });
+
+            container.innerHTML = sortedSites.map(site => {
+                const isOnSale = site.discountPercent > 0;
+                const originalTotalPrice = site.totalPrice;
+                const actualTotalPrice = isOnSale 
+                    ? originalTotalPrice * (1 - site.discountPercent / 100) 
+                    : originalTotalPrice;
+                
+                const unitPrice = actualTotalPrice / site.count;
+                const originalUnitPrice = originalTotalPrice / site.count;
+
+                return `
+                    <div class="card status-${site.status} ${isOnSale ? 'on-sale' : ''}">
+                        <div class="card-header">
+                            <span class="site-name">${site.name}</span>
+                            <div class="badges">
+                                ${isOnSale ? `<span class="sale-badge">-${site.discountPercent}%</span>` : ''}
+                                <span class="status-badge status-${site.status}">
+                                    ${site.status === 'available' ? 'In Stock' : 'Out of Stock'}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="price-section">
+                            <div class="unit-price-container">
+                                <span class="price">CHF ${unitPrice.toFixed(2)}</span>
+                                <span class="unit-label">per monster</span>
+                            </div>
+                            ${isOnSale ? `<span class="original-price">CHF ${originalUnitPrice.toFixed(2)}</span>` : ''}
+                        </div>
+
+                        <div class="bulk-info">
+                            Total: CHF ${actualTotalPrice.toFixed(2)} for ${site.count} units
+                        </div>
+
+                        <div class="card-footer">
+                            <a href="${site.url}" target="_blank" class="view-btn">
+                                View Product
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </a>
+                            <div class="last-checked">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                ${site.lastChecked}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        renderStats();
+        renderCards();
+
+        async function detectLinux() {
+            let isLinux = false;
+            if (navigator.userAgentData) {
+                try {
+                    const ua = await navigator.userAgentData.getHighEntropyValues(['platform']);
+                    isLinux = ua.platform === 'Linux';
+                } catch (e) {
+                    isLinux = window.navigator.userAgent.toLowerCase().includes('linux');
+                }
+            } else {
+                isLinux = window.navigator.userAgent.toLowerCase().includes('linux');
+            }
+
+            if (isLinux) {
+                document.getElementById('linus-img').style.display = 'block';
+            }
+        }
+        detectLinux();
+    </script>
 </body>
 </html>
