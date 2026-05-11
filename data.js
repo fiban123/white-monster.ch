@@ -38,7 +38,7 @@ const monsterSites = [
     {
         name: "Migros",
         url: "https://www.migros.ch/de/product/mo/10650245",
-        status: "available",
+        status: "out_of_stock",
         lastChecked: "11-05-26",
         totalPrice: 10.20,
         count: 6,
