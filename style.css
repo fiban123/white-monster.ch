@@ -222,9 +222,8 @@ h1 {
     align-items: center;
 }
 
+/* BASE BUTTON STYLES */
 .btn-primary {
-    background: var(--text);
-    color: var(--bg);
     text-decoration: none;
     padding: 0.75rem 1.25rem;
     border-radius: 0.75rem;
@@ -233,16 +232,32 @@ h1 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    transition: opacity 0.2s;
+    transition: all 0.2s ease;
+    border: 1px solid transparent; /* Placeholder for borders */
 }
 
-.btn-primary:hover {
-    opacity: 0.9;
+/* AVAILABLE BUTTON */
+.status-available .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+    border: 1px solid var(--text);
 }
 
-.is-sale .btn-primary {
-    background: var(--purple);
-    color: white;
+.status-available .btn-primary:hover {
+    background: transparent;
+    color: var(--text);
+    transform: translateY(-2px);
+}
+
+/* OUT OF STOCK BUTTON */
+.status-oos .btn-primary {
+    background: var(--zinc-800);
+    color: var(--muted);
+    border: 1px solid var(--zinc-700); /* HIGH CONTRAST BORDER */
+}
+
+.status-oos .btn-primary:hover {
+    border-color: var(--muted);
 }
 
 .timestamp {

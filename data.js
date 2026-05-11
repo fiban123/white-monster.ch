@@ -25,5 +25,23 @@ const monsterSites = [
         totalPrice: 21.00,
         count: 12,
         discountPercent: 43
+    },
+    {
+        name: "Coop",
+        url: "https://www.coop.ch/en/food/drinks/soft-drinks/sport-energy-drinks/energy-drinks/monster-ultra-white-4x50cl/p/7211277#tab=product-information",
+        status: "out_of_stock",
+        lastChecked: "11-05-26",
+        totalPrice: 6.80,
+        count: 4,
+        discountPercent: 0
+    },
+    {
+        name: "Migros",
+        url: "https://www.migros.ch/de/product/mo/10650245",
+        status: "available",
+        lastChecked: "11-05-26",
+        totalPrice: 10.20,
+        count: 6,
+        discountPercent: 30
     }
 ];
