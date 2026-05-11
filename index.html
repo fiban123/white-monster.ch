@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>White Monster Tracker</h1>
-        <p class="subtitle">Availability Status</p>
+        <div class="header-content">
+            <h1>White Monster <span class="accent-text">Tracker</span></h1>
+        </div>
         <div class="stats-grid" id="stats-container">
             <!-- Stats will be injected here -->
         </div>
@@ -25,7 +26,7 @@
     <img id="linus-img" src="linus.webp" alt="Happy Linus Torvalds" style="display: none;">
 
     <footer class="footer">
-        <p>&copy; 2026 White Monster Tracker</p>
+        <p>&copy; 2026 White Monster Tracker by fiban123</p>
     </footer>
 
     <script src="data.js"></script>
@@ -40,22 +41,21 @@
 
             statsContainer.innerHTML = `
                 <div class="stat-item">
-                    <span class="stat-label">Total Sites</span>
+                    <span class="stat-label">Retailers</span>
                     <span class="stat-value">${total}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">In Stock</span>
-                    <span class="stat-value ${inStock > 0 ? 'text-success' : 'text-danger'}">${inStock}</span>
+                    <span class="stat-value ${inStock > 0 ? 'text-success' : 'text-muted'}">${inStock}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">On Sale</span>
-                    <span class="stat-value text-purple">${onSale}</span>
+                    <span class="stat-value text-accent">${onSale}</span>
                 </div>
             `;
         }
 
         function renderCards() {
-            // Sort: 'available' first, then 'out_of_stock'
             const sortedSites = [...monsterSites].sort((a, b) => {
                 if (a.status === 'available' && b.status !== 'available') return -1;
                 if (a.status !== 'available' && b.status === 'available') return 1;
@@ -64,44 +64,43 @@
 
             container.innerHTML = sortedSites.map(site => {
                 const isOnSale = site.discountPercent > 0;
-                const originalTotalPrice = site.totalPrice;
                 const actualTotalPrice = isOnSale 
-                    ? originalTotalPrice * (1 - site.discountPercent / 100) 
-                    : originalTotalPrice;
+                    ? site.totalPrice * (1 - site.discountPercent / 100) 
+                    : site.totalPrice;
                 
                 const unitPrice = actualTotalPrice / site.count;
-                const originalUnitPrice = originalTotalPrice / site.count;
+                const originalUnitPrice = site.totalPrice / site.count;
 
                 return `
-                    <div class="card status-${site.status} ${isOnSale ? 'on-sale' : ''}">
+                    <div class="card ${site.status === 'available' ? 'status-available' : 'status-oos'} ${isOnSale ? 'is-sale' : ''}">
                         <div class="card-header">
-                            <span class="site-name">${site.name}</span>
+                            <h2 class="site-name">${site.name}</h2>
                             <div class="badges">
-                                ${isOnSale ? `<span class="sale-badge">-${site.discountPercent}%</span>` : ''}
-                                <span class="status-badge status-${site.status}">
-                                    ${site.status === 'available' ? 'In Stock' : 'Out of Stock'}
+                                ${isOnSale ? `<span class="badge badge-sale">-${site.discountPercent}%</span>` : ''}
+                                <span class="badge badge-status">
+                                    ${site.status === 'available' ? 'Available' : 'Out of Stock'}
                                 </span>
                             </div>
                         </div>
                         
-                        <div class="price-section">
-                            <div class="unit-price-container">
-                                <span class="price">CHF ${unitPrice.toFixed(2)}</span>
-                                <span class="unit-label">per monster</span>
+                        <div class="price-grid">
+                            <div class="price-main">
+                                <span class="price-value">CHF ${unitPrice.toFixed(2)}</span>
+                                <span class="price-label">per Monster</span>
                             </div>
-                            ${isOnSale ? `<span class="original-price">CHF ${originalUnitPrice.toFixed(2)}</span>` : ''}
+                            ${isOnSale ? `<div class="price-original">was CHF ${originalUnitPrice.toFixed(2)}</div>` : ''}
                         </div>
 
-                        <div class="bulk-info">
-                            Total: CHF ${actualTotalPrice.toFixed(2)} for ${site.count} units
+                        <div class="inventory-info">
+                            Bulk pack: ${site.count}pc &bull; Total CHF ${actualTotalPrice.toFixed(2)}
                         </div>
 
-                        <div class="card-footer">
-                            <a href="${site.url}" target="_blank" class="view-btn">
-                                View Product
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        <div class="card-actions">
+                            <a href="${site.url}" target="_blank" class="btn-primary">
+                                <span>View Deal</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                             </a>
-                            <div class="last-checked">
+                            <div class="timestamp">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                 ${site.lastChecked}
                             </div>
