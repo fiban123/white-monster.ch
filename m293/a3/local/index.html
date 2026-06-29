@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSIX-STORE | Terminal Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>[ POSIX-STORE v1.0 ]</div>
+        <nav id="main-nav">
+            <a onclick="router.navigate('home')">HOME</a>
+            <a onclick="router.navigate('shop')">SHOP</a>
+            <a onclick="router.navigate('contact')">CONTACT</a>
+            <a onclick="router.navigate('cart')">CART (<span id="cart-count">0</span>)</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Home Page -->
+        <section id="page-home">
+            <h1>Welcome to Posix-Store</h1>
+            <p>Your source for Unix-like apparel and energy.</p>
+            <div class="terminal-border">
+                <h2>Hot Products</h2>
+                <div id="hot-products" class="grid"></div>
+            </div>
+        </section>
+
+        <!-- Shop Page -->
+        <section id="page-shop" class="hidden">
+            <h1>Inventory</h1>
+            <div class="terminal-border" style="margin-bottom: 20px;">
+                Filter: 
+                <select id="filter-category" onchange="shop.render()">
+                    <option value="all">All Categories</option>
+                    <option value="tshirt">T-Shirts</option>
+                    <option value="drink">Drinks</option>
+                </select>
+            </div>
+            <div id="product-list" class="grid"></div>
+        </section>
+
+        <!-- Detail Page -->
+        <section id="page-detail" class="hidden">
+            <button class="btn" onclick="router.navigate('shop')">&lt; Back to Shop</button>
+            <div id="product-detail" style="margin-top: 20px;"></div>
+        </section>
+
+        <!-- Cart Page -->
+        <section id="page-cart" class="hidden">
+            <h1>Shopping Cart</h1>
+            <div id="cart-items" class="terminal-border"></div>
+            <div id="cart-total" style="text-align: right; font-size: 1.5rem;"></div>
+            <button id="checkout-btn" class="btn" onclick="router.navigate('pay')">PROCEED TO PAYMENT</button>
+        </section>
+
+        <!-- Pay Page -->
+        <section id="page-pay" class="hidden">
+            <h1>Payment Gateway</h1>
+            <div class="terminal-border">
+                <p>[!] This is a placeholder payment page.</p>
+                <p>Please enter your credentials to simulate payment:</p>
+                <input type="text" placeholder="Card Number"><br><br>
+                <button class="btn" onclick="alert('Payment simulated successfully!')">PAY NOW</button>
+            </div>
+        </section>
+
+        <!-- Contact Page -->
+        <section id="page-contact" class="hidden">
+            <h1>Contact / Newsletter</h1>
+            <div class="terminal-border">
+                <p>Send a message to the sysadmin:</p>
+                <form onsubmit="event.preventDefault(); alert('Message sent (non-functional)');">
+                    <input type="text" placeholder="Name" required><br><br>
+                    <input type="email" placeholder="Email" required><br><br>
+                    <textarea placeholder="Message" rows="5" style="width: 100%"></textarea><br><br>
+                    <label><input type="checkbox"> Subscribe to newsletter</label><br><br>
+                    <button type="submit" class="btn">SUBMIT</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        &copy; 2023 POSIX-STORE | Switzerland | CHF
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

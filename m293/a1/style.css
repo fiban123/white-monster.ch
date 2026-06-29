@@ -1,0 +1,44 @@
+body {
+    background-color: #0b1e26;
+    color: white;
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: center;
+}
+
+.title {
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #133442;
+}
+
+.link {
+    color: cyan;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: white;
+}
+
+.subtitle {
+    border-bottom: 2px solid grey;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 30px;
+}
+
+.recipe_list {
+    margin-bottom: 8px;
+}
+
+.drink-image {
+    border-radius: 10px;
+    border: 1px solid #444;
+    margin-top: 20px;
+    padding: 10px;
+}

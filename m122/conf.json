@@ -1,0 +1,32 @@
+{
+    "email": {
+        "enabled": true,
+        "receiver_email": "admin@example.com",
+        "smtp_server": "127.0.0.1",
+        "smtp_port": 1025,
+        "smtp_user": "",
+        "smtp_password": "",
+        "use_tls": false,
+        "send_on_warning": true,
+        "send_on_critical": true
+    },
+    "thresholds": {
+        "cpu": {
+            "warning": 0.0,
+            "critical": 0.0
+        },
+        "ram": {
+            "warning": 80.0,
+            "critical": 90.0
+        },
+        "disk": {
+            "warning": 80.0,
+            "critical": 90.0
+        }
+    },
+    "website": {
+        "enabled": true,
+        "filename": "index.html",
+        "template": "base.html"
+    }
+}

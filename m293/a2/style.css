@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom right, #00282D, #1E002D);
+    padding: 0;
+    margin: 0;
+
+    color: black;
+}
+
+header {
+    background: linear-gradient(to bottom right, #A526FF, #16DEFF);
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    position: absolute;
+    left: 0px;
+    height: 8vh;
+
+    /* copied from the internet */
+    filter: drop-shadow(4px 5px 14px #000000);
+}
+
+.card-title {
+    margin: 10px;
+}
+
+.card-desc {
+    margin: 10px;
+}
+
+.see-more-link {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 20px;
+
+    /* copied from the internet */
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    background-color: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(5px);
+    min-height: 20%;
+    width: 55%;
+    border-radius: 20px;
+    color: #0D002D;
+
+    margin-top: auto;
+}
+
+.see-more-link:hover {
+
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.card-image {
+    height: 100px;
+    border-radius: 5px;
+}
+
+.title {
+    text-align: center;
+    margin: 0;
+}
+
+.list {
+    margin: 20px;
+    display: grid;
+    /* Not vibe coded, lorin gave me this code*/
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    grid-gap: 20px;
+}
+
+.list-element {
+    background: linear-gradient(to bottom right, #A526FF, #16DEFF);
+    background-color: #A6ECE0;
+
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0px;
+
+    height: 350px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 7px;
+
+    -webkit-box-shadow: 0px 0px 114px 5px rgba(94, 129, 255, 0.29);
+    -moz-box-shadow: 0px 0px 114px 5px rgba(94, 129, 255, 0.29);
+    box-shadow: 0px 0px 114px 5px rgba(94, 129, 255, 0.29);
+}

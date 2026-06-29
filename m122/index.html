@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitoring - fabian</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f0f1a;
+            --panel-bg: rgba(26, 26, 46, 0.75);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-main: #f0f0f7;
+            --text-muted: #9595b7;
+            --color-green: #00e676;
+            --color-yellow: #ffd600;
+            --color-red: #ff1744;
+            --font-family: 'Outfit', sans-serif;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: var(--bg-color);
+            background-image: radial-gradient(circle at 10% 20%, rgba(91, 56, 233, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.1) 0%, transparent 40%);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .header-title h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .status-dot.ok {
+            background-color: var(--color-green);
+            box-shadow: 0 0 12px var(--color-green);
+            animation: pulse-green 2s infinite;
+        }
+        .status-dot.warning {
+            background-color: var(--color-yellow);
+            box-shadow: 0 0 12px var(--color-yellow);
+            animation: pulse-yellow 2s infinite;
+        }
+        .status-dot.critical {
+            background-color: var(--color-red);
+            box-shadow: 0 0 12px var(--color-red);
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 230, 118, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+        }
+        @keyframes pulse-yellow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 214, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 214, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 214, 0, 0); }
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 23, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0); }
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .card-title svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            opacity: 0.8;
+        }
+        .ampel-container {
+            display: flex;
+            gap: 0.35rem;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.35rem 0.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .ampel-light {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: #222230;
+            transition: all 0.3s ease;
+        }
+        .ampel-light.red.active {
+            background-color: var(--color-red);
+            box-shadow: 0 0 12px var(--color-red);
+            filter: drop-shadow(0 0 2px var(--color-red));
+        }
+        .ampel-light.yellow.active {
+            background-color: var(--color-yellow);
+            box-shadow: 0 0 12px var(--color-yellow);
+            filter: drop-shadow(0 0 2px var(--color-yellow));
+        }
+        .ampel-light.green.active {
+            background-color: var(--color-green);
+            box-shadow: 0 0 12px var(--color-green);
+            filter: drop-shadow(0 0 2px var(--color-green));
+        }
+        .metrics-display {
+            display: flex;
+            align-items: baseline;
+            gap: 0.25rem;
+        }
+        .metrics-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .metrics-unit {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.05);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+        .progress-bar.ok {
+            background: linear-gradient(90deg, #00b0ff, var(--color-green));
+        }
+        .progress-bar.warning {
+            background: linear-gradient(90deg, #ffd600, #ffab00);
+        }
+        .progress-bar.critical {
+            background: linear-gradient(90deg, #ff5252, var(--color-red));
+        }
+        .card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0.75rem;
+            border-radius: 8px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .detail-value {
+            font-weight: 500;
+            color: var(--text-main);
+        }
+        .system-info-table {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+        .table-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        tr:last-child {
+            border-bottom: none;
+        }
+        td {
+            padding: 0.75rem 0.5rem;
+        }
+        td.label {
+            color: var(--text-muted);
+            font-weight: 500;
+            width: 30%;
+        }
+        td.value {
+            color: var(--text-main);
+        }
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: auto;
+            padding-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-title">
+                <h1>System Monitoring Dashboard</h1>
+                <p>System Time: 2026-06-29 10:52:13 | Hostname: fabian</p>
+            </div>
+            <div class="header-status">
+                <span class="status-dot critical"></span>
+                <span style="font-weight: 600; font-size: 0.95rem;">System Status: Critical (Red)</span>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- CPU Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24"><path d="M19,15H21V17H19V15M19,11H21V13H19V11M19,7H21V9H19V7M15,19H17V21H15V19M11,19H13V21H11V19M7,19H9V21H7V19M3,15H5V17H3V15M3,11H5V13H3V11M3,7H5V9H3V7M5,5H19V19H5V5M17,17V7H7V17H17Z" /></svg>
+                        CPU Usage
+                    </div>
+                    <div class="ampel-container">
+                        <div class="ampel-light red active"></div>
+                        <div class="ampel-light yellow "></div>
+                        <div class="ampel-light green "></div>
+                    </div>
+                </div>
+                <div class="metrics-display">
+                    <span class="metrics-value">21.6</span>
+                    <span class="metrics-unit">%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar critical" style="width: 21.6%"></div>
+                </div>
+                <div class="card-details">
+                    <div class="detail-row">
+                        <span>CPU Model</span>
+                        <span class="detail-value" style="word-break: break-all;">Intel64 Family 6 Model 198 Stepping 2, GenuineIntel</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Cores (Physical / Logical)</span>
+                        <span class="detail-value">20 physical / 20 logical</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAM Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24"><path d="M2 17h20v2H2zm0-4h20v2H2zm0-4h20v2H2zm0-4h20v2H2z" /></svg>
+                        Memory (RAM)
+                    </div>
+                    <div class="ampel-container">
+                        <div class="ampel-light red "></div>
+                        <div class="ampel-light yellow "></div>
+                        <div class="ampel-light green active"></div>
+                    </div>
+                </div>
+                <div class="metrics-display">
+                    <span class="metrics-value">68.9</span>
+                    <span class="metrics-unit">%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar ok" style="width: 68.9%"></div>
+                </div>
+                <div class="card-details">
+                    <div class="detail-row">
+                        <span>Used</span>
+                        <span class="detail-value">21.65 GB</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Total</span>
+                        <span class="detail-value">31.43 GB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disk Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z" /></svg>
+                        Disk Space (/)
+                    </div>
+                    <div class="ampel-container">
+                        <div class="ampel-light red "></div>
+                        <div class="ampel-light yellow "></div>
+                        <div class="ampel-light green active"></div>
+                    </div>
+                </div>
+                <div class="metrics-display">
+                    <span class="metrics-value">52.4</span>
+                    <span class="metrics-unit">%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar ok" style="width: 52.4%"></div>
+                </div>
+                <div class="card-details">
+                    <div class="detail-row">
+                        <span>Used</span>
+                        <span class="detail-value">498.43 GB</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Free</span>
+                        <span class="detail-value">453.21 GB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="system-info-table">
+            <div class="table-title">System Details</div>
+            <table>
+                <tr>
+                    <td class="label">Operating System</td>
+                    <td class="value">Windows</td>
+                </tr>
+                <tr>
+                    <td class="label">OS Version</td>
+                    <td class="value">11</td>
+                </tr>
+                <tr>
+                    <td class="label">System Uptime</td>
+                    <td class="value">12 days, 21 hours, 29 minutes</td>
+                </tr>
+                <tr>
+                    <td class="label">IP Address</td>
+                    <td class="value">172.23.16.1</td>
+                </tr>
+            </table>
+        </div>
+
+        <footer>
+            Generated on 2026-06-29 10:52:13 by SystemMonitor.
+        </footer>
+    </div>
+</body>
+</html>

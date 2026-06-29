@@ -1,0 +1,52 @@
+
+==========================================================================
+System Information
+==========================================================================
+| System time      | 2026-06-29 09:11:47                                 |
+| Uptime           | 12 days, 19 hours, 49 minutes                       |
+| OS               | Windows (Version: 11)                               |
+| Hostname         | fabian                                              |
+| IP Address       | 172.23.16.1                                         |
+| CPU Model        | Intel64 Family 6 Model 198 Stepping 2, GenuineIntel |
+| CPU Cores        | 20 physical / 20 logical                            |
+| CPU Usage        | 19.9% (OK)                                          |
+| RAM              | Total: 31.43 GB | Used: 20.01 GB (63.7% - OK)       |
+| Storage          | Free: 450.79 GB | Used: 500.86 GB (52.6% - OK)      |
+| Global Status    | OK                                                  |
+| Alert Email Sent | Disabled                                            |
+==========================================================================
+
+==========================================================================
+System Information
+==========================================================================
+| System time      | 2026-06-29 09:13:08                                 |
+| Uptime           | 12 days, 19 hours, 50 minutes                       |
+| OS               | Windows (Version: 11)                               |
+| Hostname         | fabian                                              |
+| IP Address       | 172.23.16.1                                         |
+| CPU Model        | Intel64 Family 6 Model 198 Stepping 2, GenuineIntel |
+| CPU Cores        | 20 physical / 20 logical                            |
+| CPU Usage        | 0.7% (OK)                                           |
+| RAM              | Total: 31.43 GB | Used: 19.14 GB (60.9% - OK)       |
+| Storage          | Free: 450.79 GB | Used: 500.86 GB (52.6% - OK)      |
+| Global Status    | OK                                                  |
+| Alert Email Sent | Disabled                                            |
+==========================================================================
+
+==========================================================================
+System Information
+==========================================================================
+| System time      | 2026-06-29 09:35:16                                 |
+| Uptime           | 12 days, 20 hours, 12 minutes                       |
+| OS               | Windows (Version: 11)                               |
+| Hostname         | fabian                                              |
+| IP Address       | 172.23.16.1                                         |
+| CPU Model        | Intel64 Family 6 Model 198 Stepping 2, GenuineIntel |
+| CPU Cores        | 20 physical / 20 logical                            |
+| CPU Usage        | 6.5% (OK)                                           |
+| RAM              | Total: 31.43 GB | Used: 21.71 GB (69.1% - OK)       |
+| Storage          | Free: 450.96 GB | Used: 500.69 GB (52.6% - OK)      |
+| Global Status    | OK                                                  |
+| Alert Email Sent | Disabled                                            |
+==========================================================================
+

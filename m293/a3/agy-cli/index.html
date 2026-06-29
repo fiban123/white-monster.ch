@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSIX Store - The Developer Shop</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Terminal Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars-container"></div>
+    <div class="scanlines"></div>
+
+    <!-- Layout Wrapper -->
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area" onclick="navigateTo('home')">
+                <span class="prompt-symbol">guest@posix-store:~$</span>
+                <h1 class="logo-text">posix-store --init</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#home" class="nav-link active" data-view="home">
+                    <span class="nav-num">01_</span>home
+                </a>
+                <a href="#catalog" class="nav-link" data-view="catalog">
+                    <span class="nav-num">02_</span>catalog
+                </a>
+                <a href="#contact" class="nav-link" data-view="contact">
+                    <span class="nav-num">03_</span>contact
+                </a>
+                <a href="#cart" class="nav-link cart-nav" data-view="cart">
+                    <span class="nav-num">04_</span>cart
+                    <span class="cart-badge" id="cart-count">0</span>
+                </a>
+            </nav>
+
+            <div class="system-status">
+                <div class="status-item">
+                    <span class="status-label">LOC:</span>
+                    <span class="status-value">CH</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">CURR:</span>
+                    <span class="status-value">CHF</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">SHELL:</span>
+                    <span class="status-value">bash</span>
+                </div>
+                <div class="status-item pulse-dot-container">
+                    <span class="pulse-dot"></span>
+                    <span class="status-value text-green">ONLINE</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="app-main">
+            
+            <!-- View: Home -->
+            <section id="view-home" class="app-view active">
+                <div class="home-hero">
+                    <div class="terminal-banner">
+<pre class="ascii-art">
+██████╗  ██████╗ ███████╗██╗██╗  ██╗    ███████╗████████╗ ██████╗ ██████╗ ███████╗
+██╔══██╗██╔═══██╗██╔════╝██║╚██╗██╔╝    ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝
+██████╔╝██║   ██║███████╗██║ ╚███╔╝     ███████╗   ██║   ██║   ██║██████╔╝█████╗  
+██╔═══╝ ██║   ██║╚════██║██║ ██╔██╗     ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝  
+██║     ╚██████╔╝███████║██║██╔╝ ██╗    ███████║   ██║   ╚██████╔╝██║  ██║███████╗
+╚═╝      ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═╝    ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
+</pre>
+                        <div class="banner-sub">
+                            <span class="text-dim">Environment loaded: Swiss Federation (CHF)</span>
+                            <span class="text-dim">| v1.0.0-stable</span>
+                        </div>
+                    </div>
+
+                    <div class="features-grid">
+                        <div class="feat-card">
+                            <div class="feat-icon"><i class="fa-solid fa-microchip"></i></div>
+                            <h3>Geek Apparel</h3>
+                            <p>Premium dark cotton, double stitched, optimized for developer comfort during 12-hour coding sprints.</p>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon"><i class="fa-solid fa-mug-hot"></i></div>
+                            <h3>Liquid Fuel</h3>
+                            <p>High-caffeine, low-sugar beverages to optimize CPU compiling times and developer brain performance.</p>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                            <h3>POSIX Verified</h3>
+                            <p>Strict standard compliance, zero trackers, secure offline localStorage-based checkout.</p>
+                        </div>
+                    </div>
+
+                    <div class="section-divider">
+                        <span class="div-line"></span>
+                        <span class="div-text">FEATURED_PRODUCTS</span>
+                        <span class="div-line"></span>
+                    </div>
+
+                    <div class="products-grid" id="hot-products-grid">
+                        <!-- Loaded dynamically -->
+                    </div>
+
+                    <div class="home-actions">
+                        <a href="#catalog" class="terminal-btn btn-large">
+                            <i class="fa-solid fa-folder-open"></i> ls /products
+                        </a>
+                    </div>
+
+                    <div class="section-divider">
+                        <span class="div-line"></span>
+                        <span class="div-text">KERNEL_TALK_AI_IN_THE_KERNEL</span>
+                        <span class="div-line"></span>
+                    </div>
+
+                    <div class="video-section">
+                        <div class="video-card">
+                            <h3><i class="fa-solid fa-video text-green"></i> ./interview_linus_torvalds.sh --ai-discussion</h3>
+                            <div class="video-wrapper">
+                                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/4_x0USuQ9Ss?si=0V-ArHDkmk91m5V3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="video-fallback" id="video-local-fallback" style="display: none;">
+                                <span class="text-dim">Running locally via file:// protocol?</span>
+                                <a href="https://youtu.be/4_x0USuQ9Ss" target="_blank" class="fallback-link">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Watch directly on YouTube
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Catalog -->
+            <section id="view-catalog" class="app-view">
+                <div class="catalog-layout">
+                    <!-- Sidebar Filters -->
+                    <aside class="catalog-filters">
+                        <div class="filter-header">
+                            <h3><i class="fa-solid fa-sliders"></i> Filters</h3>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="search-input">grep -i "keyword"</label>
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="search-input" placeholder="Filter articles...">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>category --filter</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="category" value="all" checked>
+                                    <span class="radio-custom"></span> All Products
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="category" value="shirts">
+                                    <span class="radio-custom"></span> T-Shirts
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="category" value="drinks">
+                                    <span class="radio-custom"></span> Drinks
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="category" value="collectibles">
+                                    <span class="radio-custom"></span> Collectibles
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="sort-select">sort --by</label>
+                            <select id="sort-select" class="terminal-select">
+                                <option value="default">Default ID</option>
+                                <option value="price-asc">Price (low -> high)</option>
+                                <option value="price-desc">Price (high -> low)</option>
+                                <option value="name-asc">Name (A -> Z)</option>
+                            </select>
+                        </div>
+
+                        <button class="terminal-btn btn-block" onclick="resetFilters()">
+                            <i class="fa-solid fa-arrows-rotate"></i> reset --filters
+                        </button>
+                    </aside>
+
+                    <!-- Products Grid Container -->
+                    <div class="catalog-content">
+                        <div class="catalog-toolbar">
+                            <div class="toolbar-stats">
+                                <span class="text-dim">Search results:</span> <span id="results-count">0</span> matching items
+                            </div>
+                        </div>
+
+                        <div class="products-grid" id="catalog-products-grid">
+                            <!-- Loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Detail -->
+            <section id="view-detail" class="app-view">
+                <div class="detail-back">
+                    <a href="#catalog" class="back-link"><i class="fa-solid fa-arrow-left"></i> cd ../catalog</a>
+                </div>
+                
+                <div class="detail-container" id="product-detail-content">
+                    <!-- Dynamic product detail view loaded here -->
+                </div>
+            </section>
+
+            <!-- View: Cart & Checkout -->
+            <section id="view-cart" class="app-view">
+                <div class="cart-layout">
+                    <!-- Left: Cart Items -->
+                    <div class="cart-content">
+                        <h2><i class="fa-solid fa-cart-shopping"></i> shopping_cart.json</h2>
+                        
+                        <div id="cart-items-container">
+                            <!-- Dynamic cart items loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Summary & Checkout -->
+                    <div class="cart-summary-panel">
+                        <h2><i class="fa-solid fa-file-invoice-dollar"></i> checkout_invoice</h2>
+                        
+                        <div class="summary-table">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span id="summary-subtotal">CHF 0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Swiss VAT (7.7%):</span>
+                                <span id="summary-vat">CHF 0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping:</span>
+                                <span class="text-green">FREE</span>
+                            </div>
+                            <div class="summary-row divider"></div>
+                            <div class="summary-row grand-total">
+                                <span>Total:</span>
+                                <span id="summary-total">CHF 0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Pay Form -->
+                        <div class="checkout-form-container">
+                            <h3><i class="fa-solid fa-credit-card"></i> Payment Information</h3>
+                            <form id="checkout-form" onsubmit="handlePayment(event)">
+                                <div class="form-group">
+                                    <label for="pay-email">Email Address</label>
+                                    <input type="email" id="pay-email" placeholder="dev@null.ch" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pay-name">Name on Card</label>
+                                    <input type="text" id="pay-name" placeholder="Linus Torvalds" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pay-card">Card Number</label>
+                                    <input type="text" id="pay-card" placeholder="4000 1234 5678 9010" required maxlength="19">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="pay-expiry">Expiry Date</label>
+                                        <input type="text" id="pay-expiry" placeholder="MM/YY" required maxlength="5">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pay-cvv">CVV</label>
+                                        <input type="password" id="pay-cvv" placeholder="***" required maxlength="4">
+                                    </div>
+                                </div>
+                                <button type="submit" class="terminal-btn btn-block btn-pay" id="pay-button">
+                                    <i class="fa-solid fa-terminal"></i> sudo buy --confirm
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Checkout Simulation Modal/Overlay -->
+                <div class="checkout-overlay" id="checkout-modal">
+                    <div class="checkout-modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title"><i class="fa-solid fa-terminal text-green"></i> transaction_logger.sh</span>
+                            <span class="modal-close" onclick="closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></span>
+                        </div>
+                        <div class="modal-terminal-body" id="modal-terminal-output">
+                            <!-- Terminal outputs here line by line -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Contact -->
+            <section id="view-contact" class="app-view">
+                <div class="contact-layout">
+                    <div class="contact-info">
+                        <h2><i class="fa-solid fa-circle-info"></i> contact_metadata.yaml</h2>
+                        <pre class="terminal-code">
+<span class="code-key">company:</span> <span class="code-val">POSIX Store Switzerland GmbH</span>
+<span class="code-key">address:</span> <span class="code-val">Dev Loop 0x7F, 8000 Zürich</span>
+<span class="code-key">timezone:</span> <span class="code-val">CET (UTC+1) / CEST (UTC+2)</span>
+<span class="code-key">pgp_key:</span> <span class="code-val">0x8F9E10A2B3C4D5E6</span>
+<span class="code-key">dns:</span> <span class="code-val">posix-store.ch</span>
+<span class="code-key">status:</span> <span class="code-val text-green">Online & Accepting Pull Requests</span>
+                        </pre>
+                        
+                        <div class="contact-faq">
+                            <h3><i class="fa-solid fa-circle-question"></i> Frequently Asked Queries</h3>
+                            <div class="faq-item">
+                                <div class="faq-q">Q: What is the delivery time?</div>
+                                <div class="faq-a">A: 1-2 business days in Switzerland via Swiss Post. Tracking links sent over encrypted mail.</div>
+                            </div>
+                            <div class="faq-item">
+                                <div class="faq-q">Q: Can I pay with Bitcoin?</div>
+                                <div class="faq-a">A: Currently we support simulated credit card payments in our checkout, mock billing only.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-panel">
+                        <h2><i class="fa-solid fa-envelope"></i> write_message.sh</h2>
+                        <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                            <div class="form-group">
+                                <label for="contact-name">Name</label>
+                                <input type="text" id="contact-name" placeholder="guest_user" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email</label>
+                                <input type="email" id="contact-email" placeholder="user@domain.ch" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-subject">Subject</label>
+                                <input type="text" id="contact-subject" placeholder="Bug report / Feature request" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Message Body</label>
+                                <textarea id="contact-message" placeholder="Type your message here..." rows="6" required></textarea>
+                            </div>
+                            <button type="submit" class="terminal-btn btn-block">
+                                <i class="fa-solid fa-paper-plane"></i> mail --send ./message.txt
+                            </button>
+                        </form>
+                        <div id="contact-success-msg" class="terminal-success-box hidden">
+                            <!-- Success code outputs here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer / Interactive CLI Terminal console -->
+        <footer class="app-footer">
+            <div class="footer-top">
+                <div class="newsletter-area">
+                    <span class="prompt-symbol"><i class="fa-solid fa-envelope"></i> subscribe_newsletter:</span>
+                    <form id="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+                        <input type="email" id="news-email" placeholder="dev@kernel.org" required>
+                        <button type="submit" class="terminal-btn">cron --run</button>
+                    </form>
+                    <span id="news-status" class="news-status-msg"></span>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <span class="text-dim">&copy; 2026 POSIX Store Switzerland. Licensed under GPL-3.0. Compliant with RFC 2616.</span>
+                </div>
+                <div class="time-widget">
+                    <span class="text-dim">UTC:</span> <span id="utc-clock">00:00:00</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Main Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
